@@ -1,37 +1,44 @@
-document.addEventListener("DOMContentLoaded", () => {
+let meets = [];
 
-  const meetsDiv = document.getElementById("meets");
+function getMeetsDiv() {
+  return document.getElementById("meets");
+}
 
-  let meets = [];
+function renderMeets() {
+  const meetsDiv = getMeetsDiv();
 
-  function renderMeets() {
-    meetsDiv.innerHTML = "";
-
-    meets.forEach((meet, index) => {
-      const div = document.createElement("div");
-      div.className = "meet";
-
-      div.innerHTML = `
-        <h3>${meet.title}</h3>
-        <p>${meet.link}</p>
-        <button onclick="endMeet(${index})">End</button>
-      `;
-
-      meetsDiv.appendChild(div);
-    });
+  if (!meetsDiv) {
+    console.error("meets div not found");
+    return;
   }
 
-  window.createMeet = function () {
-    const title = prompt("Meet name:");
-    const link = prompt("Server link:");
+  meetsDiv.innerHTML = "";
 
-    meets.push({ title, link });
-    renderMeets();
-  }
+  meets.forEach((meet, index) => {
+    const div = document.createElement("div");
+    div.className = "meet";
 
-  window.endMeet = function (index) {
-    meets.splice(index, 1);
-    renderMeets();
-  }
+    div.innerHTML = `
+      <h3>${meet.title}</h3>
+      <p>${meet.link}</p>
+      <button onclick="endMeet(${index})">End</button>
+    `;
 
-});
+    meetsDiv.appendChild(div);
+  });
+}
+
+function createMeet() {
+  const title = prompt("Meet name:");
+  const link = prompt("Server link:");
+
+  if (!title || !link) return;
+
+  meets.push({ title, link });
+  renderMeets();
+}
+
+function endMeet(index) {
+  meets.splice(index, 1);
+  renderMeets();
+}
