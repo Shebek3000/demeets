@@ -63,61 +63,12 @@ function listenForMeets() {
   );
 }
 
-window.openCreateMeetModal = function () {
-  document.getElementById("createMeetModal").style.display = "flex";
-};
-
-window.closeCreateMeetModal = function () {
-  document.getElementById("createMeetModal").style.display = "none";
-  document.getElementById("meetTitle").value = "";
-  document.getElementById("meetLink").value = "";
-};
-
-window.submitMeet = async function () {
-  const user = auth.currentUser;
-
-  if (!user) {
-    alert("You must be logged in.");
-    return;
-  }
-
-  if (currentUserRole !== "host" && currentUserRole !== "admin") {
-    alert("You are not allowed to create meets.");
-    return;
-  }
-
-  const title = document.getElementById("meetTitle").value.trim();
-  const link = document.getElementById("meetLink").value.trim();
-
-  if (!title || !link) {
-    alert("Please fill in both fields.");
-    return;
-  }
-
-  const userQuery = firebaseStuff.query(
-    firebaseStuff.collection(db, "users"),
-    firebaseStuff.where("uid", "==", user.uid)
+window.openCreateMeetWindow = function () {
+  window.open(
+    "create-meet.html",
+    "CreateMeetWindow",
+    "width=520,height=420,resizable=no,scrollbars=no"
   );
-
-  const userSnapshot = await firebaseStuff.getDocs(userQuery);
-
-  let username = "Unknown Host";
-
-  userSnapshot.forEach((docSnap) => {
-    username = docSnap.data().username;
-  });
-
-  await firebaseStuff.addDoc(
-    firebaseStuff.collection(db, "meets"),
-    {
-      title,
-      link,
-      hostUid: user.uid,
-      hostUsername: username
-    }
-  );
-
-  closeCreateMeetModal();
 };
 
 window.addEventListener("click", function (event) {
