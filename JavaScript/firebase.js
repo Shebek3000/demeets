@@ -19,7 +19,11 @@ window.auth = auth;
 
 window.firebaseStuff = { collection, addDoc, getDocs, deleteDoc, doc, onSnapshot, query, where};
 
-window.authStuff = {createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged
+window.authStuff = {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
 };
 
 import { onSnapshot } 
