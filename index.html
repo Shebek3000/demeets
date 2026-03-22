@@ -8,17 +8,20 @@
 </head>
 <body>
 
-<h1>🚗 Live Car Meets</h1>
-<div id="topBar">
- <p id="userInfo">Not logged in</p>
- <a href="login.html">Login</a>
- <button id="logoutBtn" onclick="logout()" style="display:none;">Logout</button>
-</div>
+  <div id="topBar">
+    <div id="topLeft">
+      <h1>🚗 Drive Meets</h1>
+    </div>
 
-<div id="meets"></div>
+    <div id="topRight">
+      <p id="userInfo">Not logged in</p>
+      <a id="loginLink" href="login.html">Login</a>
+      <button id="createMeetBtn" onclick="createMeet()" style="display: none;">Create Meet</button>
+      <button id="logoutBtn" onclick="logout()" style="display: none;">Logout</button>
+    </div>
+  </div>
 
-<button onclick="createMeet()">Create Meet</button>
+  <div id="meets"></div>
 
 </body>
 </html>
-
