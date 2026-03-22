@@ -16,3 +16,6 @@ window.firebaseStuff = { collection, addDoc, getDocs, deleteDoc, doc, onSnapshot
 
 import { onSnapshot } 
 from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } 
+from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
