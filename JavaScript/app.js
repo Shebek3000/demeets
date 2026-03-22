@@ -63,16 +63,14 @@ function listenForMeets() {
   );
 }
 
-window.openCreateMeetPanel = function () {
-  const panel = document.getElementById("createMeetPanel");
-  panel.style.display = "block";
+window.openCreateMeetModal = function () {
+  document.getElementById("createMeetModal").style.display = "flex";
 };
 
-window.closeCreateMeetPanel = function () {
-  const panel = document.getElementById("createMeetPanel");
+window.closeCreateMeetModal = function () {
+  document.getElementById("createMeetModal").style.display = "none";
   document.getElementById("meetTitle").value = "";
   document.getElementById("meetLink").value = "";
-  panel.style.display = "none";
 };
 
 window.submitMeet = async function () {
@@ -119,7 +117,7 @@ window.submitMeet = async function () {
     }
   );
 
-  closeCreateMeetPanel();
+  closeCreateMeetModal();
 };
 window.deleteMeet = async function (id) {
   const meetRef = firebaseStuff.doc(db, "meets", id);
