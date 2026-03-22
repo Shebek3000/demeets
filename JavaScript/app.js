@@ -63,7 +63,19 @@ function listenForMeets() {
   );
 }
 
-window.createMeet = async function () {
+window.openCreateMeetPanel = function () {
+  const panel = document.getElementById("createMeetPanel");
+  panel.style.display = "block";
+};
+
+window.closeCreateMeetPanel = function () {
+  const panel = document.getElementById("createMeetPanel");
+  document.getElementById("meetTitle").value = "";
+  document.getElementById("meetLink").value = "";
+  panel.style.display = "none";
+};
+
+window.submitMeet = async function () {
   const user = auth.currentUser;
 
   if (!user) {
@@ -76,10 +88,13 @@ window.createMeet = async function () {
     return;
   }
 
-  const title = prompt("Meet name:");
-  const link = prompt("Server link:");
+  const title = document.getElementById("meetTitle").value.trim();
+  const link = document.getElementById("meetLink").value.trim();
 
-  if (!title || !link) return;
+  if (!title || !link) {
+    alert("Please fill in both fields.");
+    return;
+  }
 
   const userQuery = firebaseStuff.query(
     firebaseStuff.collection(db, "users"),
@@ -103,8 +118,9 @@ window.createMeet = async function () {
       hostUsername: username
     }
   );
-};
 
+  closeCreateMeetPanel();
+};
 window.deleteMeet = async function (id) {
   const meetRef = firebaseStuff.doc(db, "meets", id);
 
