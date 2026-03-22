@@ -13,3 +13,8 @@ const db = getFirestore(app);
 
 window.db = db;
 window.firebaseStuff = { collection, addDoc, getDocs, deleteDoc, doc };
+
+import { onSnapshot } 
+from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+window.firebaseStuff = { collection, addDoc, getDocs, deleteDoc, doc, onSnapshot };
