@@ -32,6 +32,24 @@ window.createMeet = async function () {
     return;
   }
 
+  const usersRef = firebaseStuff.collection(db, "users");
+  const q = firebaseStuff.query(usersRef, firebaseStuff.where("uid", "==", user.uid));
+  const snapshot = await firebaseStuff.getDocs(q);
+
+  let canHost = false;
+
+  snapshot.forEach((docSnap) => {
+    const data = docSnap.data();
+    if (data.role === "host" || data.role === "admin") {
+      canHost = true;
+    }
+  });
+
+  if (!canHost) {
+    alert("You are not allowed to create meets.");
+    return;
+  }
+
   const title = prompt("Meet name:");
   const link = prompt("Server link:");
 
@@ -39,7 +57,11 @@ window.createMeet = async function () {
 
   await firebaseStuff.addDoc(
     firebaseStuff.collection(db, "meets"),
-    { title, link, hostUid: user.uid }
+    {
+      title,
+      link,
+      hostUid: user.uid
+    }
   );
 };
 
@@ -56,17 +78,20 @@ window.logout = async function () {
 
 async function updateAuthUI(user) {
   const userInfo = document.getElementById("userInfo");
+  const loginLink = document.getElementById("loginLink");
   const createMeetBtn = document.getElementById("createMeetBtn");
   const logoutBtn = document.getElementById("logoutBtn");
 
   if (!user) {
     userInfo.innerText = "Not logged in";
+    loginLink.style.display = "inline-block";
     createMeetBtn.style.display = "none";
     logoutBtn.style.display = "none";
     return;
   }
 
   userInfo.innerText = `Logged in as: ${user.email}`;
+  loginLink.style.display = "none";
   logoutBtn.style.display = "inline-block";
 
   const usersRef = firebaseStuff.collection(db, "users");
