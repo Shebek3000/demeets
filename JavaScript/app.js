@@ -1,4 +1,9 @@
 window.createMeet = async function () {
+  if (!window.firebaseStuff || !window.db) {
+    alert("Firebase not loaded yet!");
+    return;
+  }
+
   const title = prompt("Meet name:");
   const link = prompt("Server link:");
 
@@ -8,6 +13,8 @@ window.createMeet = async function () {
     firebaseStuff.collection(db, "meets"),
     { title, link }
   );
+
+  loadMeets(); // refresh list
 };
 
 window.deleteMeet = async function (id) {
