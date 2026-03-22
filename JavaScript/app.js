@@ -1,3 +1,21 @@
+let currentUser = null;
+let currentUserRole = null;
+
+async function getCurrentUserRole(uid) {
+  const usersRef = firebaseStuff.collection(db, "users");
+  const q = firebaseStuff.query(usersRef, firebaseStuff.where("uid", "==", uid));
+  const snapshot = await firebaseStuff.getDocs(q);
+
+  let role = null;
+
+  snapshot.forEach((docSnap) => {
+    const data = docSnap.data();
+    role = data.role;
+  });
+
+  return role;
+}
+
 function listenForMeets() {
   const meetsDiv = document.getElementById("meets");
 
@@ -12,10 +30,19 @@ function listenForMeets() {
         const div = document.createElement("div");
         div.className = "meet";
 
+        let endButton = "";
+
+        if (
+          currentUser &&
+          (currentUserRole === "admin" || meet.hostUid === currentUser.uid)
+        ) {
+          endButton = `<button onclick="deleteMeet('${docSnap.id}')">End</button>`;
+        }
+
         div.innerHTML = `
           <h3>${meet.title}</h3>
           <p>${meet.link}</p>
-          <button onclick="deleteMeet('${docSnap.id}')">End</button>
+          ${endButton}
         `;
 
         meetsDiv.appendChild(div);
@@ -32,20 +59,7 @@ window.createMeet = async function () {
     return;
   }
 
-  const usersRef = firebaseStuff.collection(db, "users");
-  const q = firebaseStuff.query(usersRef, firebaseStuff.where("uid", "==", user.uid));
-  const snapshot = await firebaseStuff.getDocs(q);
-
-  let canHost = false;
-
-  snapshot.forEach((docSnap) => {
-    const data = docSnap.data();
-    if (data.role === "host" || data.role === "admin") {
-      canHost = true;
-    }
-  });
-
-  if (!canHost) {
+  if (currentUserRole !== "host" && currentUserRole !== "admin") {
     alert("You are not allowed to create meets.");
     return;
   }
@@ -66,9 +80,9 @@ window.createMeet = async function () {
 };
 
 window.deleteMeet = async function (id) {
-  await firebaseStuff.deleteDoc(
-    firebaseStuff.doc(db, "meets", id)
-  );
+  const meetRef = firebaseStuff.doc(db, "meets", id);
+
+  await firebaseStuff.deleteDoc(meetRef);
 };
 
 window.logout = async function () {
@@ -82,37 +96,32 @@ async function updateAuthUI(user) {
   const createMeetBtn = document.getElementById("createMeetBtn");
   const logoutBtn = document.getElementById("logoutBtn");
 
+  currentUser = user;
+  currentUserRole = null;
+
   if (!user) {
     userInfo.innerText = "Not logged in";
     loginLink.style.display = "inline-block";
     createMeetBtn.style.display = "none";
     logoutBtn.style.display = "none";
+    listenForMeets();
     return;
   }
+
+  currentUserRole = await getCurrentUserRole(user.uid);
 
   userInfo.innerText = `Logged in as: ${user.email}`;
   loginLink.style.display = "none";
   logoutBtn.style.display = "inline-block";
+  createMeetBtn.style.display =
+    currentUserRole === "host" || currentUserRole === "admin"
+      ? "inline-block"
+      : "none";
 
-  const usersRef = firebaseStuff.collection(db, "users");
-  const q = firebaseStuff.query(usersRef, firebaseStuff.where("uid", "==", user.uid));
-  const snapshot = await firebaseStuff.getDocs(q);
-
-  let canHost = false;
-
-  snapshot.forEach((docSnap) => {
-    const data = docSnap.data();
-    if (data.role === "host" || data.role === "admin") {
-      canHost = true;
-    }
-  });
-
-  createMeetBtn.style.display = canHost ? "inline-block" : "none";
+  listenForMeets();
 }
 
 window.onload = function () {
-  listenForMeets();
-
   authStuff.onAuthStateChanged(auth, (user) => {
     updateAuthUI(user);
   });
