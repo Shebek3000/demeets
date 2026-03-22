@@ -27,15 +27,15 @@ window.signup = async function () {
       password
     );
 
-    await window.firebaseStuff.addDoc(
-      window.firebaseStuff.collection(window.db, "users"),
-      {
-        uid: userCredential.user.uid,
-        email,
-        username,
-        role: "user"
-      }
-    );
+    await window.firebaseStuff.setDoc(
+  window.firebaseStuff.doc(window.db, "users", userCredential.user.uid),
+  {
+    uid: userCredential.user.uid,
+    email,
+    username,
+    role: "user"
+  }
+);
 
     status.innerText = "Account created! You can now log in.";
   } catch (error) {
