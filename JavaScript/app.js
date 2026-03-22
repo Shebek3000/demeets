@@ -52,6 +52,7 @@ function listenForMeets() {
        div.innerHTML = `
   <h3>${meet.title}</h3>
   <p><strong>Host:</strong> ${meet.hostUsername || "Unknown Host"}</p>
+  <p>${meet.link}</p>
   <a class="join-btn" href="${meet.link}" target="_blank" rel="noopener noreferrer">Join Meet</a>
   ${endButton}
 `;
