@@ -9,15 +9,26 @@ window.signup = async function () {
     return;
   }
 
+  if (!window.authStuff || !window.auth || !window.firebaseStuff || !window.db) {
+    status.innerText = "Firebase/Auth not loaded properly.";
+    console.error("Missing Firebase globals:", {
+      authStuff: window.authStuff,
+      auth: window.auth,
+      firebaseStuff: window.firebaseStuff,
+      db: window.db
+    });
+    return;
+  }
+
   try {
-    const userCredential = await authStuff.createUserWithEmailAndPassword(
-      auth,
+    const userCredential = await window.authStuff.createUserWithEmailAndPassword(
+      window.auth,
       email,
       password
     );
 
-    await firebaseStuff.addDoc(
-      firebaseStuff.collection(db, "users"),
+    await window.firebaseStuff.addDoc(
+      window.firebaseStuff.collection(window.db, "users"),
       {
         uid: userCredential.user.uid,
         email,
@@ -43,8 +54,18 @@ window.login = async function () {
     return;
   }
 
+  if (!window.authStuff || !window.auth) {
+    status.innerText = "Firebase/Auth not loaded properly.";
+    return;
+  }
+
   try {
-    await authStuff.signInWithEmailAndPassword(auth, email, password);
+    await window.authStuff.signInWithEmailAndPassword(
+      window.auth,
+      email,
+      password
+    );
+
     window.location.href = "index.html";
   } catch (error) {
     status.innerText = error.message;
