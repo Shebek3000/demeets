@@ -49,12 +49,12 @@ function listenForMeets() {
           endButton = `<button onclick="deleteMeet('${docSnap.id}')">End</button>`;
         }
 
-        div.innerHTML = `
-          <h3>${meet.title}</h3>
-          <p><strong>Host:</strong> ${meet.hostUsername || "Unknown Host"}</p>
-          <p>${meet.link}</p>
-          ${endButton}
-        `;
+       div.innerHTML = `
+  <h3>${meet.title}</h3>
+  <p><strong>Host:</strong> ${meet.hostUsername || "Unknown Host"}</p>
+  <a class="join-btn" href="${meet.link}" target="_blank" rel="noopener noreferrer">Join Meet</a>
+  ${endButton}
+`;
 
         meetsDiv.appendChild(div);
       });
