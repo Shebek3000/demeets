@@ -5,6 +5,7 @@ body {
   color: white;
 }
 
+/* Top bar */
 #topBar {
   display: flex;
   justify-content: space-between;
@@ -37,10 +38,12 @@ body {
 }
 
 #topRight a,
-#topRight button {
-  background: #2b2b2b;
+#topRight button,
+.auth-buttons button,
+.popup-buttons button {
+  background: #1f6feb;
   color: white;
-  border: 1px solid #3b3b3b;
+  border: none;
   padding: 10px 16px;
   border-radius: 10px;
   text-decoration: none;
@@ -50,11 +53,22 @@ body {
 }
 
 #topRight a:hover,
-#topRight button:hover {
-  background: #3a3a3a;
+#topRight button:hover,
+.auth-buttons button:hover,
+.popup-buttons button:hover {
+  background: #388bfd;
   transform: translateY(-1px);
 }
 
+.secondary-btn {
+  background: #2b2b2b !important;
+}
+
+.secondary-btn:hover {
+  background: #3a3a3a !important;
+}
+
+/* Main page */
 #meets {
   max-width: 900px;
   margin: 30px auto;
@@ -95,17 +109,6 @@ body {
   background: #a92828;
 }
 
-#noMeetsMessage {
-  text-align: center;
-  color: #bdbdbd;
-  background: #1d1d1d;
-  border: 1px dashed #3b3b3b;
-  border-radius: 14px;
-  padding: 28px;
-  margin-top: 30px;
-  font-size: 20px;
-}
-
 .join-btn {
   display: inline-block;
   margin-top: 12px;
@@ -123,50 +126,114 @@ body {
   transform: translateY(-1px);
 }
 
-.popup-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: linear-gradient(180deg, #0f0f0f, #181818);
-  color: white;
+#noMeetsMessage {
+  text-align: center;
+  color: #bdbdbd;
+  background: #1d1d1d;
+  border: 1px dashed #3b3b3b;
+  border-radius: 14px;
+  padding: 28px;
+  margin-top: 30px;
+  font-size: 20px;
+}
+
+footer {
+  text-align: center;
+  color: #9a9a9a;
+  padding: 25px 15px 35px;
+  font-size: 14px;
+}
+
+/* Auth page */
+.auth-page,
+.popup-page {
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  padding: 20px;
 }
 
-.popup-box {
-  width: 90%;
-  max-width: 420px;
+.auth-card,
+.popup-card {
+  width: 100%;
+  max-width: 440px;
   background: linear-gradient(180deg, #1f1f1f, #191919);
   border: 1px solid #2f2f2f;
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+  border-radius: 18px;
+  padding: 30px 26px;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
 }
 
-.popup-box h1 {
+.auth-card h1,
+.popup-card h1 {
   margin-top: 0;
-  font-size: 26px;
+  margin-bottom: 10px;
+  font-size: 30px;
+  text-align: center;
 }
 
-.popup-box input {
+.auth-subtext,
+.popup-subtext {
+  text-align: center;
+  color: #bfbfbf;
+  margin-bottom: 22px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.auth-card input,
+.popup-card input {
   width: 100%;
   box-sizing: border-box;
-  margin-bottom: 12px;
-  padding: 12px 14px;
-  border-radius: 10px;
+  margin-bottom: 14px;
+  padding: 13px 14px;
+  border-radius: 12px;
   border: 1px solid #3a3a3a;
   background: #121212;
   color: white;
   font-size: 15px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.popup-box input:focus {
+.auth-card input:focus,
+.popup-card input:focus {
   outline: none;
   border-color: #1f6feb;
+  box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.2);
 }
 
+.auth-buttons,
+.popup-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.auth-buttons button,
+.popup-buttons button {
+  flex: 1;
+  padding: 12px 14px;
+  font-size: 15px;
+  border-radius: 12px;
+}
+
+#authStatus,
 #popupStatus {
-  margin-top: 12px;
+  margin-top: 16px;
+  text-align: center;
   color: #d0d0d0;
+  min-height: 20px;
+}
+
+.back-link {
+  display: block;
+  margin-top: 16px;
+  text-align: center;
+  color: #9ecbff;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
 }
