@@ -28,14 +28,18 @@ function renderMeets() {
   });
 }
 
-function createMeet() {
+async function createMeet() {
   const title = prompt("Meet name:");
   const link = prompt("Server link:");
 
   if (!title || !link) return;
 
-  meets.push({ title, link });
-  renderMeets();
+  await firebaseStuff.addDoc(
+    firebaseStuff.collection(db, "meets"),
+    { title, link }
+  );
+
+  loadMeets();
 }
 
 function endMeet(index) {
