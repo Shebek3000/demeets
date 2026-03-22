@@ -2,15 +2,18 @@ let currentUser = null;
 let currentUserRole = null;
 
 async function getCurrentUserRole(uid) {
-  const usersRef = firebaseStuff.collection(db, "users");
-  const q = firebaseStuff.query(usersRef, firebaseStuff.where("uid", "==", uid));
-  const snapshot = await firebaseStuff.getDocs(q);
+  const userDocRef = firebaseStuff.doc(db, "users", uid);
+  const snapshot = await firebaseStuff.getDocs(
+    firebaseStuff.query(
+      firebaseStuff.collection(db, "users"),
+      firebaseStuff.where("uid", "==", uid)
+    )
+  );
 
   let role = null;
 
   snapshot.forEach((docSnap) => {
-    const data = docSnap.data();
-    role = data.role;
+    role = docSnap.data().role;
   });
 
   return role;
