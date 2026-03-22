@@ -78,3 +78,7 @@ function endMeet(index) {
   meets.splice(index, 1);
   renderMeets();
 }
+
+window.onload = function () {
+  loadMeets();
+};
