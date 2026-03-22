@@ -119,6 +119,14 @@ window.submitMeet = async function () {
 
   closeCreateMeetModal();
 };
+
+window.addEventListener("click", function (event) {
+  const modal = document.getElementById("createMeetModal");
+  if (event.target === modal) {
+    closeCreateMeetModal();
+  }
+});
+
 window.deleteMeet = async function (id) {
   const meetRef = firebaseStuff.doc(db, "meets", id);
 
