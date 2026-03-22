@@ -23,28 +23,56 @@ window.deleteMeet = async function (id) {
   );
 };
 
-async function loadMeets() {
+//async function loadMeets() {
+//  const meetsDiv = document.getElementById("meets");
+//  meetsDiv.innerHTML = "";
+
+//  const querySnapshot = await firebaseStuff.getDocs(
+//  firebaseStuff.collection(db, "meets")
+//  );
+
+//  querySnapshot.forEach((docSnap) => {
+//    const meet = docSnap.data();
+
+//    const div = document.createElement("div");
+//    div.className = "meet";
+
+//    div.innerHTML = `
+//      <h3>${meet.title}</h3>
+//      <p>${meet.link}</p>
+//      <button onclick="deleteMeet('${docSnap.id}')">End</button>
+//    `;
+//
+//    meetsDiv.appendChild(div);
+//  });
+//}
+
+function listenForMeets() {
   const meetsDiv = document.getElementById("meets");
-  meetsDiv.innerHTML = "";
 
-  const querySnapshot = await firebaseStuff.getDocs(
-    firebaseStuff.collection(db, "meets")
+  firebaseStuff.onSnapshot(
+    firebaseStuff.collection(db, "meets"),
+    (snapshot) => {
+
+      meetsDiv.innerHTML = "";
+
+      snapshot.forEach((docSnap) => {
+        const meet = docSnap.data();
+
+        const div = document.createElement("div");
+        div.className = "meet";
+
+        div.innerHTML = `
+          <h3>${meet.title}</h3>
+          <p>${meet.link}</p>
+          <button onclick="deleteMeet('${docSnap.id}')">End</button>
+        `;
+
+        meetsDiv.appendChild(div);
+      });
+
+    }
   );
-
-  querySnapshot.forEach((docSnap) => {
-    const meet = docSnap.data();
-
-    const div = document.createElement("div");
-    div.className = "meet";
-
-    div.innerHTML = `
-      <h3>${meet.title}</h3>
-      <p>${meet.link}</p>
-      <button onclick="deleteMeet('${docSnap.id}')">End</button>
-    `;
-
-    meetsDiv.appendChild(div);
-  });
 }
 
 window.onload = function () {
