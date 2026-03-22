@@ -42,12 +42,12 @@ function listenForMeets() {
           endButton = `<button onclick="deleteMeet('${docSnap.id}')">End</button>`;
         }
 
-        div.innerHTML = `
-          <h3>${meet.title}</h3>
-          <p>${meet.link}</p>
-          ${endButton}
-        `;
-
+div.innerHTML = `
+  <h3>${meet.title}</h3>
+  <p><strong>Host:</strong> ${meet.hostUsername || "Unknown Host"}</p>
+  <p>${meet.link}</p>
+  ${endButton}
+`;
         meetsDiv.appendChild(div);
       });
     }
@@ -72,12 +72,26 @@ window.createMeet = async function () {
 
   if (!title || !link) return;
 
+  const userQuery = firebaseStuff.query(
+    firebaseStuff.collection(db, "users"),
+    firebaseStuff.where("uid", "==", user.uid)
+  );
+
+  const userSnapshot = await firebaseStuff.getDocs(userQuery);
+
+  let username = "Unknown Host";
+
+  userSnapshot.forEach((docSnap) => {
+    username = docSnap.data().username;
+  });
+
   await firebaseStuff.addDoc(
     firebaseStuff.collection(db, "meets"),
     {
       title,
       link,
-      hostUid: user.uid
+      hostUid: user.uid,
+      hostUsername: username
     }
   );
 };
@@ -111,9 +125,22 @@ async function updateAuthUI(user) {
     return;
   }
 
-  currentUserRole = await getCurrentUserRole(user.uid);
+  const userQuery = firebaseStuff.query(
+    firebaseStuff.collection(db, "users"),
+    firebaseStuff.where("uid", "==", user.uid)
+  );
 
-  userInfo.innerText = `Logged in as: ${user.email}`;
+  const userSnapshot = await firebaseStuff.getDocs(userQuery);
+
+  let username = "Unknown User";
+
+  userSnapshot.forEach((docSnap) => {
+    const data = docSnap.data();
+    username = data.username;
+    currentUserRole = data.role;
+  });
+
+  userInfo.innerText = `Logged in as: ${username}`;
   loginLink.style.display = "none";
   logoutBtn.style.display = "inline-block";
   createMeetBtn.style.display =
