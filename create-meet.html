@@ -1,24 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Create Meet - Driving Empire Meets</title>
+  <title>Create a Meet - Driving Empire Meets</title>
   <link rel="stylesheet" href="Styles/style.css">
   <script type="module" src="JavaScript/firebase.js"></script>
   <script src="JavaScript/createMeetWindow.js" defer></script>
 </head>
-<body class="popup-body">
-  <div class="popup-box">
-    <h1>Create a Meet</h1>
+<body class="popup-page">
+
+  <div class="popup-card">
+    <h1></h1>Create a Meet</h1>
+    <p class="popup-subtext">Post a new meet for the Driving Empire community.</p>
 
     <input id="meetTitle" type="text" placeholder="Meet name">
     <input id="meetLink" type="text" placeholder="Server link">
 
-    <div class="panel-buttons">
+    <div class="popup-buttons">
       <button onclick="submitMeet()">Post Meet</button>
-      <button onclick="window.close()">Cancel</button>
+      <button class="secondary-btn" onclick="window.close()">Cancel</button>
     </div>
 
     <p id="popupStatus"></p>
   </div>
+
 </body>
 </html>
