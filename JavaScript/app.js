@@ -27,6 +27,13 @@ function listenForMeets() {
     (snapshot) => {
       meetsDiv.innerHTML = "";
 
+      if (snapshot.empty) {
+        meetsDiv.innerHTML = `
+          <div id="noMeetsMessage">No meets are active right now!</div>
+        `;
+        return;
+      }
+
       snapshot.forEach((docSnap) => {
         const meet = docSnap.data();
 
@@ -42,12 +49,13 @@ function listenForMeets() {
           endButton = `<button onclick="deleteMeet('${docSnap.id}')">End</button>`;
         }
 
-div.innerHTML = `
-  <h3>${meet.title}</h3>
-  <p><strong>Host:</strong> ${meet.hostUsername || "Unknown Host"}</p>
-  <p>${meet.link}</p>
-  ${endButton}
-`;
+        div.innerHTML = `
+          <h3>${meet.title}</h3>
+          <p><strong>Host:</strong> ${meet.hostUsername || "Unknown Host"}</p>
+          <p>${meet.link}</p>
+          ${endButton}
+        `;
+
         meetsDiv.appendChild(div);
       });
     }
