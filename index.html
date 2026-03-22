@@ -9,6 +9,15 @@
 <body>
 
   <div id="topBar">
+    <div id="createMeetPanel" style="display: none;">
+  <h2>Create a Meet</h2>
+  <input id="meetTitle" type="text" placeholder="Meet name">
+  <input id="meetLink" type="text" placeholder="Server link">
+  <div class="panel-buttons">
+    <button onclick="submitMeet()">Post Meet</button>
+    <button onclick="closeCreateMeetPanel()">Cancel</button>
+  </div>
+</div>
     <div id="topLeft">
       <h1>Driving Empire Meets</h1>
     </div>
@@ -16,7 +25,7 @@
     <div id="topRight">
       <p id="userInfo">Not logged in</p>
       <a id="loginLink" href="login.html">Login</a>
-      <button id="createMeetBtn" onclick="createMeet()" style="display: none;">Create Meet</button>
+      <button id="createMeetBtn" onclick="openCreateMeetPanel()" style="display: none;">Create Meet</button>
       <button id="logoutBtn" onclick="logout()" style="display: none;">Logout</button>
     </div>
   </div>
