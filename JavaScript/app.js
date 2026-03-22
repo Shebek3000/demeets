@@ -1,12 +1,6 @@
-let meets = [];
-
 function getMeetsDiv() {
   return document.getElementById("meets");
 }
-
-function renderMeets() {
-  const meetsDiv = getMeetsDiv();
-
   if (!meetsDiv) {
     console.error("meets div not found");
     return;
@@ -28,7 +22,7 @@ function renderMeets() {
   });
 }
 
-async function createMeet() {
+window.createMeet = async function () {
   const title = prompt("Meet name:");
   const link = prompt("Server link:");
 
@@ -66,17 +60,12 @@ async function loadMeets() {
   });
 }
 
-async function deleteMeet(id) {
+window.deleteMeet = async function (id) {
   await firebaseStuff.deleteDoc(
     firebaseStuff.doc(db, "meets", id)
   );
 
   loadMeets();
-}
-
-function endMeet(index) {
-  meets.splice(index, 1);
-  renderMeets();
 }
 
 window.onload = function () {
