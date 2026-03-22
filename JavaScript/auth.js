@@ -72,3 +72,24 @@ window.login = async function () {
     console.error(error);
   }
 };
+
+document.addEventListener("DOMContentLoaded", () => {
+  const email = document.getElementById("email");
+  const password = document.getElementById("password");
+  const username = document.getElementById("username");
+
+  function handleEnter(event) {
+    if (event.key === "Enter") {
+      login();
+    }
+  }
+
+  email.addEventListener("keydown", handleEnter);
+  password.addEventListener("keydown", handleEnter);
+
+  username.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      signup();
+    }
+  });
+});
