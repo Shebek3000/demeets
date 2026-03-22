@@ -76,5 +76,5 @@ function listenForMeets() {
 }
 
 window.onload = function () {
-  loadMeets();
+  listenForMeets();
 };
