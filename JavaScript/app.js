@@ -66,6 +66,14 @@ async function loadMeets() {
   });
 }
 
+async function deleteMeet(id) {
+  await firebaseStuff.deleteDoc(
+    firebaseStuff.doc(db, "meets", id)
+  );
+
+  loadMeets();
+}
+
 function endMeet(index) {
   meets.splice(index, 1);
   renderMeets();
