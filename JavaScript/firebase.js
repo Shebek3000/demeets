@@ -38,6 +38,7 @@ window.firebaseStuff = {
   getDocs,
   deleteDoc,
   doc,
+  setDoc,
   onSnapshot,
   query,
   where
