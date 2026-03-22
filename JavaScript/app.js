@@ -14,7 +14,7 @@ window.createMeet = async function () {
     { title, link }
   );
 
-  loadMeets(); // refresh list
+  //loadMeets(); // refresh list
 };
 
 window.deleteMeet = async function (id) {
